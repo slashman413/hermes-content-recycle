@@ -1,0 +1,15 @@
+[
+  {
+    "date": "2026-06-28",
+    "content_count": 2,
+    "platforms": [
+      "twitter",
+      "facebook",
+      "instagram",
+      "threads",
+      "telegram",
+      "discord"
+    ],
+    "status": "scheduled"
+  }
+]
