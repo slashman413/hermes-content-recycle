@@ -43,8 +43,8 @@ jobs:
 
       - name: Commit data
         run: |
-          git config user.name "hermes-agent"
-          git config user.email "hermes@nousresearch.com"
+          git config user.name "Massor"
+          git config user.email "slashman413@gmail.com"
           git add data/ docs/
           git diff --staged --quiet || git commit -m "auto: content recycle update"
           git push
