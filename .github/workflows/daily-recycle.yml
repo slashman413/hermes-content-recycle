@@ -34,13 +34,6 @@ jobs:
       - name: Generate recycle content
         run: python scripts/recycle.py
 
-      - name: Deploy schedule page
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          publish_branch: gh-pages
-
       - name: Commit data
         run: |
           git config user.name "Massor"
