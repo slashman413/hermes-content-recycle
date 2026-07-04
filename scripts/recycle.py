@@ -14,6 +14,44 @@ CONFIG_FILE = BASE_DIR / "config.json"
 
 CONTENT_LOG = DATA_DIR / "content_log.json"
 
+# ---------------------------------------------------------------------------
+# Product CTAs — UTM-tagged links injected into every cross-post.
+# {SRC} is substituted per platform; CAMP is fixed.
+# ---------------------------------------------------------------------------
+_UTM_CAMP = "hermes-content-recycle"
+
+_SAAS_URL = (
+    "https://slashman413.gumroad.com/l/saas-starter"
+    "?utm_source={src}&utm_medium=social&utm_campaign=" + _UTM_CAMP
+)
+_TWSE_URL = (
+    "https://slashman413.github.io/twse-backtests/"
+    "?utm_source={src}&utm_medium=social&utm_campaign=" + _UTM_CAMP
+)
+
+
+def _cta_block(platform: str, mode: str = "both") -> str:
+    """Return a CTA footer string for the given platform.
+
+    mode='both'   — two links (Facebook / Threads / Telegram)
+    mode='single' — SaaS Starter only (Twitter/X)
+    mode='ig'     — single link line, Instagram style
+    """
+    src = platform.lower()
+    saas = _SAAS_URL.format(src=src)
+    twse = _TWSE_URL.format(src=src)
+
+    if mode == "single":
+        return f"\n🚀 SaaS Starter Kit → {saas}"
+    if mode == "ig":
+        return f"\n🔗 {saas}"
+    # both
+    return (
+        f"\n\n---\n"
+        f"🚀 SaaS Starter Kit → {saas}\n"
+        f"📈 TWSE 量化訊號 → {twse}"
+    )
+
 
 def get_latest_shorts() -> list[dict]:
     """Get latest Shorts from pixabay-shorts-bot output."""
@@ -49,17 +87,43 @@ def get_mock_shorts() -> list[dict]:
 
 
 def generate_share_text(shorts: dict) -> dict:
-    """Generate platform-specific share text for a Shorts video."""
+    """Generate platform-specific share text for a Shorts video.
+
+    Each platform's copy ends with a UTM-tagged product CTA so every
+    cross-post drives measurable traffic to paid products.
+    """
     vid_id = shorts.get("video_id", "")
     url = f"https://youtu.be/{vid_id}"
     title = shorts.get("title", "心靈語錄 Shorts")
-    
+
     return {
-        "twitter": f"{title}\n\n{url}\n\n#Shorts #名言語錄 #勵志",
-        "facebook": f"{title}\n\n🎬 觀看完整影片：{url}\n\n追蹤更多心靈語錄 👉 https://slashman413.github.io/",
-        "instagram": f"{title}\n\n點擊 bio 連結觀看完整影片 🎬\n\n#Shorts #名言語錄 #勵志 #心靈雞湯",
-        "threads": f"{title}\n\n{url}\n\n#Shorts #名言語錄",
-        "telegram": f"✨ {title}\n\n{url}",
+        # X/Twitter: char-limited → one link (SaaS Starter)
+        "twitter": (
+            f"{title}\n\n{url}\n\n#Shorts #名言語錄 #勵志"
+            + _cta_block("twitter", mode="single")
+        ),
+        # Facebook: long-form → both CTAs
+        "facebook": (
+            f"{title}\n\n🎬 觀看完整影片：{url}\n\n追蹤更多心靈語錄 👉 https://slashman413.github.io/"
+            + _cta_block("facebook", mode="both")
+        ),
+        # Instagram: "link in bio" style + one link line
+        "instagram": (
+            f"{title}\n\n點擊 bio 連結觀看完整影片 🎬"
+            + _cta_block("instagram", mode="ig")
+            + "\n\n#Shorts #名言語錄 #勵志 #心靈雞湯"
+        ),
+        # Threads: full, includes both CTAs
+        "threads": (
+            f"{title}\n\n{url}\n\n#Shorts #名言語錄"
+            + _cta_block("threads", mode="both")
+        ),
+        # Telegram: full, includes both CTAs
+        "telegram": (
+            f"✨ {title}\n\n{url}"
+            + _cta_block("telegram", mode="both")
+        ),
+        # Discord: no UTM CTA (internal community channel, not a public post)
         "discord": f"**✨ {title}**\n{url}",
     }
 
