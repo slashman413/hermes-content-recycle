@@ -21,7 +21,7 @@ CONTENT_LOG = DATA_DIR / "content_log.json"
 _UTM_CAMP = "hermes-content-recycle"
 
 _SAAS_URL = (
-    "https://slashman413.gumroad.com/l/saas-starter"
+    "https://slashmaster6.gumroad.com/l/kuvajr"
     "?utm_source={src}&utm_medium=social&utm_campaign=" + _UTM_CAMP
 )
 _TWSE_URL = (
