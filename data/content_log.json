@@ -128,5 +128,18 @@
       "discord"
     ],
     "status": "scheduled"
+  },
+  {
+    "date": "2026-07-09",
+    "content_count": 2,
+    "platforms": [
+      "twitter",
+      "facebook",
+      "instagram",
+      "threads",
+      "telegram",
+      "discord"
+    ],
+    "status": "scheduled"
   }
 ]
