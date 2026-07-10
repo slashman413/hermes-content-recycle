@@ -141,5 +141,18 @@
       "discord"
     ],
     "status": "scheduled"
+  },
+  {
+    "date": "2026-07-10",
+    "content_count": 2,
+    "platforms": [
+      "twitter",
+      "facebook",
+      "instagram",
+      "threads",
+      "telegram",
+      "discord"
+    ],
+    "status": "scheduled"
   }
 ]
